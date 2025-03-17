@@ -1,0 +1,151 @@
+/* style.css */
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #303030, #b9b2b2); /* ไล่สีพื้นหลัง */ 
+    margin: 0;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100vh; 
+
+}
+
+
+
+
+.product-section {
+    display: flex;
+    margin: 50px;
+    padding: 90px;
+} 
+
+.product-image img {
+    border: 1px solid black; /* กรอบสีดำขนาด 2px */
+    border-radius: 20px; /* ความโค้งมนของกรอบ */
+    padding: 5px; /* เพิ่มพื้นที่ระหว่างรูปภาพและกรอบ */
+    max-width: 100%; /* ทำให้ภาพตอบสนองต่อขนาดการ์ด */
+    height: auto; /* รักษาสัดส่วนของภาพ */
+    padding-bottom: 1px;
+}
+
+.product-details {
+    margin-left: 90px;
+    
+}
+.product-details h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.product-details .price {
+    color: #ff3300;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+
+.product-details .quantity {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+
+.product-details .quantity input {
+    width: 40px;
+    text-align: right;
+    margin: 4px;
+}
+
+.product-details .purchase-buttons button {
+    margin-right: 10px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 17px; /* ความโค้งมนของกรอบ */
+}
+
+
+.add-to-cart {
+    background-color: #000;
+    color: #fff;
+}
+
+.buy-now {
+    background-color: #ff3300;
+    color: #fff;
+}
+
+
+h2 {
+    text-align: center; /* จัดข้อความให้อยู่ตรงกลาง */
+    font-size: 28px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+    font-weight: bold; /* ทำให้ตัวอักษรหนา */
+    color: #333; /* สีข้อความ */
+
+    margin-bottom: 30px; /* ระยะห่างด้านล่าง */
+    position: relative; /* ใช้สำหรับตกแต่งเพิ่มเติม */
+}
+
+
+
+.suggested-products {
+    display: flex;
+    flex-direction: column; /* จัดไอเท็มในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    justify-content: center; /* จัดให้อยู่กึ่งกลางในแนวตั้ง */
+    text-align: center; /* จัดข้อความให้อยู่กึ่งกลาง */
+    height: auto; /* หรือกำหนดความสูงที่ต้องการ */
+}
+
+
+
+
+
+.suggested-products {
+    
+    display: grid;
+    gap: 1px;
+    padding: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* ปรับจำนวนคอลัมน์ตามขนาดหน้าจอ */
+}
+
+.product-card img {
+    border: 1px solid black; /* กรอบสีดำขนาด 2px */
+    border-radius: 20px; /* ความโค้งมนของกรอบ */
+    padding: 5px; /* เพิ่มพื้นที่ระหว่างรูปภาพและกรอบ */
+    max-width: 60%; /* ทำให้ภาพตอบสนองต่อขนาดการ์ด */
+    height: auto; /* รักษาสัดส่วนของภาพ */
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+    margin: 5px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* ขยับขึ้นเล็กน้อยเมื่อโฮเวอร์ */
+}
+
+
+/* Start Footer */
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+    padding: 25px 20px; /* ลด padding เพื่อให้ footer เล็กลง */
+    width: 100%;
+    font-size: 0.8em; /* ลดขนาดฟอนต์ให้เล็กลง */
+}
+footer h3 {
+    margin-bottom: 5px; /* ลดระยะห่างด้านล่างของหัวข้อ */
+    font-size: 1em; /* ปรับขนาดหัวข้อ */
+}
+footer p {
+    font-size: 0.8em; /* ลดขนาดฟอนต์ของข้อความ */
+    margin: 2px 0; /* ลดระยะห่างระหว่างบรรทัด */
+}
+/* End Footer */

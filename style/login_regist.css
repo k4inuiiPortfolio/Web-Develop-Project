@@ -1,0 +1,242 @@
+/* ทำให้ body และ html เต็มความสูงหน้าจอ */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    font-family: Koulen;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #303030, #b9b2b2);
+    
+}
+
+.container {
+    flex: 1; /* ขยาย container เพื่อดัน footer ลงไปด้านล่าง */
+    padding-top: 60px; /* เผื่อพื้นที่ให้กับ navbar */
+}
+
+
+/* ตั้งค่ารูปแบบของกล่องฟอร์ม */
+.register {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px; /* ลด padding */
+    background-color: #F9E8CF;
+    text-align: left;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-height: 90vh; /* จำกัดความสูงของ container */
+    overflow-y: auto; /* ให้มี scroll หากเนื้อหายาวเกิน */
+    display: flex;
+    flex-direction: column; /* ตั้งให้เป็นแนวตั้ง */
+    align-items: center; /* จัดกลางในแนวนอน */
+    padding-left: 50px;
+    padding-right: 50px;
+    
+}
+
+/* ตั้งค่าให้กับหัวข้อ */
+.register h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+/* ตั้งค่ารูปแบบให้กับช่องกรอกข้อมูล */
+.register input[type="text"],
+.register input[type="email"],
+.register input[type="password"] {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #000; /* เส้นขอบล่าง*/
+    font-size: 14px;
+    background-color: transparent; /*พื้นหลังโปร่งใส */
+} 
+
+
+    /* ตั้งค่ารูปแบบให้กับปุ่มสมัคร */
+    #formBT {
+        background-color: #d9534f;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+        padding: 10px 28px;
+        margin: 0 10px; /* ระยะห่างระหว่างปุ่ม */
+    }
+  
+    /* เปลี่ยนสีเมื่อเมาส์วางบนปุ่ม */
+    #formBT:hover {
+        background-color: #c9302c;
+    }
+  
+    /* จัดให้ปุ่มอยู่ตรงกลางหน้ากระดาษ */
+    .button-container {
+        display: flex;             /* ใช้ Flexbox */
+        justify-content: center;   /* จัดให้อยู่ตรงกลางแนวนอน */
+        align-items: center;       /* จัดให้อยู่ตรงกลางแนวตั้ง */
+                    /* ให้ container สูงเต็มหน้าจอ */
+    }
+
+/* ตั้งค่ารูปแบบให้กับข้อความลงชื่อเข้าใช้งาน */
+.register .signin {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+/* ตั้งค่าให้กับลิงก์ลงชื่อเข้าใช้งาน */
+.register .signin a {
+    color: #333;
+    text-decoration: none;
+}
+
+
+/* Start Footer */
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+    padding: 25px 20px; /* ลด padding เพื่อให้ footer เล็กลง */
+    width: 100%;
+    font-size: 0.8em; /* ลดขนาดฟอนต์ให้เล็กลง */
+}
+
+footer h3 {
+    margin-bottom: 5px; /* ลดระยะห่างด้านล่างของหัวข้อ */
+    font-size: 1em; /* ปรับขนาดหัวข้อ */
+}
+
+footer p {
+    font-size: 0.8em; /* ลดขนาดฟอนต์ของข้อความ */
+    margin: 2px 0; /* ลดระยะห่างระหว่างบรรทัด */
+}
+/* End Footer */
+
+
+
+/* Start Login */
+
+.login-container {
+    background-color: #f5e2c8;
+    padding: 50px;
+    border-radius: 70px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.login-container h1 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.login-container label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.forgot-password {
+    text-align: left;
+    font-size: 0.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #333;
+}
+
+
+.register-login{
+    text-align: center;
+    font-size: 0.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.register-login a {
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+input[type="button"] {
+    background-color: #E04B48; /* สีพื้นแดง */
+    color: white; /* สีตัวอักษรขาว */
+    border: none; /* ไม่มีเส้นขอบ */
+    padding: 10px 20px; /* ระยะรอบข้อความ */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    font-family: Arial, sans-serif; /* ฟอนต์ */
+    border-radius: 5px; /* มุมโค้งมน */
+    cursor: pointer; /* เปลี่ยนเมาส์เป็นมือ */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* เงา */
+    margin-left: 65px;
+}
+
+input[type="button"]:hover {
+    background-color: #D03A38; /* สีพื้นเมื่อเอาเมาส์วาง */
+}
+
+#cancelButton {
+    background-color: #E04B48; /* สีพื้นแดง */
+    color: white; /* สีตัวอักษรขาว */
+    border: none; /* ไม่มีเส้นขอบ */
+    padding: 10px 20px; /* ระยะรอบข้อความ */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    font-family: Arial, sans-serif; /* ฟอนต์ */
+    border-radius: 5px; /* มุมโค้งมน */
+    cursor: pointer; /* เปลี่ยนเมาส์เป็นมือ */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* เงา */
+    text-decoration: none; /* ลบเส้นขีดใต้ลิงก์ */
+    margin-top: 10px ;
+    margin-left: 8px;
+}
+
+#cancelButton:hover {
+    background-color: #D03A38; /* สีพื้นเมื่อเอาเมาส์วาง */
+}
+
+
+
+
+
+
+/* End Login */

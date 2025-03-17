@@ -1,0 +1,273 @@
+/* ทำให้ body และ html เต็มความสูงหน้าจอ */
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Koulen;
+    min-height: 100vh; /* ทำให้ body ครอบคลุมความสูงของหน้าจอเสมอ */
+    text-align: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #303030, #b9b2b2);
+    padding-top: 78px;
+}
+
+.container {
+    flex: 1; /* ขยาย container เพื่อดัน footer ลงไปด้านล่าง */
+    padding-top: 60px; /* เผื่อพื้นที่ให้กับ navbar */
+}
+
+
+/* ตั้งค่ารูปแบบของกล่องฟอร์ม */
+.register {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px; /* ลด padding */
+    background-color: #F9E8CF;
+    text-align: left;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-height: 90vh; /* จำกัดความสูงของ container */
+    overflow-y: auto; /* ให้มี scroll หากเนื้อหายาวเกิน */
+    display: flex;
+    flex-direction: column; /* ตั้งให้เป็นแนวตั้ง */
+    align-items: center; /* จัดกลางในแนวนอน */
+    padding-left: 50px;
+    padding-right: 50px;
+    
+}
+
+/* ตั้งค่าให้กับหัวข้อ */
+.register h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+/* ตั้งค่ารูปแบบให้กับช่องกรอกข้อมูล */
+.register input[type="text"],
+.register input[type="email"],
+.register input[type="password"] {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #000; /* เส้นขอบล่าง*/
+    font-size: 14px;
+    background-color: transparent; /*พื้นหลังโปร่งใส */
+} 
+
+
+    /* ตั้งค่ารูปแบบให้กับปุ่มสมัคร */
+    .register input[type="button"] {
+        width: 50%;
+        padding: 12px;
+        background-color: #d9534f;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+/* เปลี่ยนสีปุ่มเมื่อเอาเมาส์วาง */
+.register input[type="button"]:hover {
+    background-color: #c9302c;
+}
+
+/* ตั้งค่ารูปแบบให้กับข้อความลงชื่อเข้าใช้งาน */
+.register .signin {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+/* ตั้งค่าให้กับลิงก์ลงชื่อเข้าใช้งาน */
+.register .signin a {
+    color: #333;
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+/* เริ่มการจัดกล่องสินค้า */
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* จัด 4 คอลัมน์ในแต่ละแถว */
+    gap: 20px; /* ระยะห่างระหว่างสินค้า */
+    padding: 20px; /* เว้นขอบรอบด้าน */
+    justify-items: center; /* จัดสินค้าให้อยู่กลางคอลัมน์ */
+    align-items: start; /* จัดแนวตั้งของสินค้า */
+    margin: 0 auto; /* จัดให้อยู่กึ่งกลางหน้าจอ */
+}
+
+/* ตั้งค่าให้กับสินค้าแต่ละชิ้น */
+.product-item {
+    background-color: #ffffff; /* พื้นหลังสีขาว */
+    border: 1px solid #ccc; /* เส้นขอบสีเทา */
+    border-radius: 8px; /* ขอบโค้ง */
+    padding: 15px; /* ระยะห่างด้านใน */
+    text-align: center; /* จัดข้อความให้อยู่กลาง */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้สินค้า */
+    width: 100%; /* ขยายสินค้าให้เต็มพื้นที่ในคอลัมน์ */
+    max-width: 150px; /* จำกัดความกว้างสูงสุด */
+}
+
+/* รูปแบบข้อความสินค้า */
+.product-item p {
+    margin: 5px 0; 
+    font-size: 14px;
+    color: #333;
+}
+
+/* ปุ่ม Sold Out */
+.product-item button {
+    padding: 8px 12px;
+    background-color: #d9534f; /* สีปุ่มแดง */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed; /* แสดงเมาส์แบบไม่คลิกได้ */
+    font-size: 14px;
+}
+
+/* เปลี่ยนสีปุ่มเมื่อ hover */
+.product-item button:hover {
+    background-color: #c9302c; /* สีแดงเข้ม */
+}
+
+.product-grid {
+    display: grid; /* ใช้ grid layout */
+    grid-template-columns: repeat(4, 1fr); /* 4 คอลัมน์ที่มีความกว้างเท่ากัน */
+    gap: 20px; /* ระยะห่างระหว่างการ์ด */
+    padding: 20px; /* เพิ่ม padding ด้านใน container */
+    justify-items: center; /* จัดการ์ดสินค้าให้อยู่ตรงกลาง */
+  }
+  
+  .product-card {
+    width: 200px; /* กำหนดความกว้างของการ์ด */
+    background-color: #fff; /* สีพื้นหลังการ์ด */
+    border: 1px solid #ddd; /* เส้นขอบบางๆ */
+    border-radius: 10px; /* มุมโค้ง */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงาสำหรับการ์ด */
+    text-align: center; /* จัดข้อความให้อยู่กึ่งกลาง */
+    padding: 15px; /* เพิ่ม padding ด้านในการ์ด */
+  }
+  
+  .product-card img {
+    width: 100%; /* ทำให้รูปภาพมีความกว้างเท่ากับการ์ด */
+    height: auto; /* คงสัดส่วนของรูปภาพ */
+    border-radius: 5px; /* มุมโค้งสำหรับรูปภาพ */
+  }
+  
+  .product-card p {
+    margin: 10px 0; /* เพิ่มระยะห่างด้านบน-ล่าง */
+    font-size: 14px; /* กำหนดขนาดฟอนต์ */
+  }
+  
+  .product-card .brand {
+    font-weight: bold; /* เน้นชื่อแบรนด์ */
+  }
+  
+  .product-card .price {
+    color: #555; /* สีข้อความราคา */
+  }
+  
+  .product-card .sold-out {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    font-size: 14px;
+  }
+  
+  .product-card .buy-button {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    font-size: 14px;
+  }
+  /* Filters - Slide-in effect */
+.filters {
+    display: none; /* Hide filters initially */
+    background-color: #f9f9f9;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 10px;
+    animation: slide-down 0.3s ease; /* Slide in effect */
+}
+
+.filters.show {
+    display: block; /* Show filters when 'show' class is added */
+}
+
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Product Card Grid Styling */
+.product-grid1 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
+}
+
+.product-card {
+    width: 200px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.product-card p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.product-card .product-description {
+    font-weight: bold;
+}
+
+.product-card .product-price {
+    color: #333;
+}
+
+
+
+
+
+
+

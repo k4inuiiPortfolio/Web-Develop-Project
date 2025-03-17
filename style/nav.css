@@ -1,0 +1,62 @@
+/* Start nav */
+
+nav {   
+    background-color: #000000; /* สีพื้นหลังของแถบ nav */
+    padding: 5px; /* เพิ่ม padding ด้านใน nav */
+    position: fixed; /* ตรึง nav ให้อยู่ด้านบนตลอดเวลา */
+    width: 100%; /* ทำให้ nav กว้างเต็มหน้าจอ */
+    z-index: 1000; /* กำหนดลำดับการแสดงผลให้ nav อยู่ด้านบนสุด */
+    left: 0;
+    right: 0;
+    top:0;
+    text-align: center; /* จัดเนื้อหาใน nav ให้อยู่กึ่งกลาง */
+}
+
+.accessory-popup {
+    display: none; /* ซ่อนป๊อปอัพ */
+    position: fixed; /* ตรึงป๊อปอัพอยู่กลางจอ */
+    top: 18%; /* ห่างจากด้านบนของหน้าจอ 20% */
+    left: 50%; /* อยู่กึ่งกลางในแนวนอน */
+    transform: translate(-50%, -50%); /* ปรับตำแหน่งให้อยู่ตรงกลาง */
+    background-color: #ffffff; /* สีพื้นหลังของป๊อปอัพ */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+    padding: 20px;
+    z-index: 1000; /* ทำให้ป๊อปอัพอยู่บนสุด */
+    width: 800px; /* ความกว้างป๊อปอัพ */
+    max-width: 60%; /* ปรับขนาดป๊อปอัพไม่ให้ใหญ่เกินหน้าจอ */
+    text-align: center; /* จัดเนื้อหาในป๊อปอัพให้อยู่กึ่งกลาง */
+}
+
+.accessory-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* จัดให้มี 2 คอลัมน์ */
+    gap: 10px; /* เว้นระยะห่างระหว่างช่อง */
+}
+
+.accessory-option {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #e0e0e0; /* สีพื้นหลังของปุ่ม */
+    border: none;
+    text-align: center; /* จัดข้อความให้อยู่กึ่งกลาง */
+    cursor: pointer; /* เปลี่ยน cursor เป็นมือเมื่อ hover */
+}
+
+.accessory-option:hover {
+    background-color: #ccc; /* เปลี่ยนสีพื้นหลังเมื่อ hover */
+}
+
+.button {
+    padding: 0; /* ไม่มี padding ในปุ่ม */
+    color: white;
+    text-decoration: none; /* ลบเส้นขีดเส้นใต้ */
+    margin-right: 40px; /* ระยะห่างด้านขวาของปุ่ม */
+}
+
+.button img {
+    height: 100%; /* กำหนดความสูงรูปภาพให้พอดีกับ nav */
+    width: auto; /* ปรับความกว้างตามสัดส่วน */
+    object-fit: cover; /* ปรับรูปภาพให้พอดีขนาด */
+}
+
+/* End nav */

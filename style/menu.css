@@ -1,0 +1,163 @@
+/* GLOBAL STYLES */
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Koulen;
+    min-height: 100vh; /* ทำให้ body ครอบคลุมความสูงของหน้าจอเสมอ */
+    text-align: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #303030, #b9b2b2);
+}
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    padding-top: 60px;
+    z-index: 100;
+    transition: 0.3s;
+}
+
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+/* Sidebar toggle */
+.sidebar.active {
+    left: 0; /* เปิดแสดง Sidebar */
+}
+
+
+.product-card {
+    color: inherit; /* ใช้สีตามสไตล์ขององค์ประกอบที่ครอบ */
+    text-decoration: none; /* ลบเส้นใต้ของลิงก์ */
+  }
+
+  .product-card:hover {
+    color: inherit; /* คงสีเดิมไว้เมื่อ hover */
+    text-decoration: none; /* ยืนยันว่าไม่มีเส้นใต้ */
+  }
+
+
+
+/* Main content */
+main {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    flex-grow: 1;  /* ขยาย main content ให้เต็มพื้นที่ */
+    transition: margin-left 0.3s;
+}
+.product-price {
+    color: red;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* PRODUCT GRID */
+.product-grid1 {
+    display: grid; /* กำหนดเป็นกริด */
+    grid-template-columns: repeat(3, 1fr); /* แสดง 3 คอลัมน์ในขนาดหน้าจอปกติ */
+    gap: 20px; /* ขนาดของช่องระหว่างการ์ดสินค้า */
+    padding: 20px;
+    margin: auto;
+}
+
+/* การ์ดสินค้า */
+.product-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    max-width: 300px;
+    width: 100%; /* ทำให้การ์ดขยายเต็มที่ */
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+.product-card .card-body {
+    padding: 15px;
+}
+
+/* ปรับขนาดปุ่ม Add To Cart */
+.add-to-cart {
+    background-color: red; /* สีพื้นหลังของปุ่ม */
+    width: 300px;  /* ความยาวของปุ่ม */
+    color: white; /* สีข้อความของปุ่ม */
+    padding: 10px; /* Padding ภายในปุ่ม */
+    border: none; /* ไม่มีขอบ */
+    border-radius: 8px; /* มุมมนของปุ่ม */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ปุ่ม */
+    display: flex; /* ทำให้ปุ่มเป็น flexbox */
+    align-items: center; /* จัดแนวกลางในแนวตั้ง */
+    justify-content: center; /* จัดแนวกลางในแนวนอน */
+    font-size: 1em; /* ขนาดฟอนต์ */
+    margin-top: 10px; /* เพิ่มระยะห่างด้านบนของปุ่ม */
+}
+
+.add-to-cart img {
+    margin-right: 5px;
+    /* ปรับตำแหน่งไอคอน */
+}
+
+/* FOOTER */
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+    padding: 25px 20px; /* ลด padding เพื่อให้ footer เล็กลง */
+    width: 100%;
+    font-size: 0.8em; /* ลดขนาดฟอนต์ให้เล็กลง */
+}
+
+footer h3 {
+    margin-bottom: 5px; /* ลดระยะห่างด้านล่างของหัวข้อ */
+    font-size: 1em; /* ปรับขนาดหัวข้อ */
+}
+
+footer p {
+    font-size: 0.8em; /* ลดขนาดฟอนต์ของข้อความ */
+    margin: 2px 0; /* ลดระยะห่างระหว่างบรรทัด */
+}
+
+/* MEDIA QUERIES */
+
+/* For tablet screens and below (max-width: 768px) */
+@media (max-width: 768px) {
+    .product-grid1 {
+        grid-template-columns: repeat(2, 1fr); /* แสดง 2 คอลัมน์สำหรับแท็บเล็ต */
+    }
+}
+
+/* For mobile screens and below (max-width: 480px) */
+@media (max-width: 480px) {
+    .product-grid1 {
+        grid-template-columns: 1fr; /* แสดง 1 คอลัมน์สำหรับมือถือ */
+    }
+}

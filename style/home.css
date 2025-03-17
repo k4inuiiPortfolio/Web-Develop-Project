@@ -1,0 +1,143 @@
+/* ทำให้ body และ html เต็มความสูงหน้าจอ */
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Koulen;
+    min-height: 100vh; /* ทำให้ body ครอบคลุมความสูงของหน้าจอเสมอ */
+    text-align: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #303030, #b9b2b2);
+}
+
+h2 {
+    text-align: left; /* จัดให้ข้อความชิดซ้าย */
+    padding-left: 20px; /* เพิ่ม padding จากด้านซ้ายเพื่อไม่ให้ชิดเกินไป */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    flex: 1; /* ขยาย container เพื่อดัน footer ลงไปด้านล่าง */
+    padding-top: 60px; /* เผื่อพื้นที่ให้กับ navbar */
+}
+
+.product-grid1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* ปรับขนาดการ์ดให้เล็กลง */
+    gap: 60px; /* เพิ่มระยะห่างระหว่างการ์ด */
+    padding: 20px;
+    margin: auto;
+}
+
+.product-card img {
+    border: 1px solid black; /* กรอบสีดำขนาด 2px */
+    border-radius: 20px; /* ความโค้งมนของกรอบ */
+    padding: 5px; /* เพิ่มพื้นที่ระหว่างรูปภาพและกรอบ */
+    max-width: 100%; /* ทำให้ภาพตอบสนองต่อขนาดการ์ด */
+    height: auto; /* รักษาสัดส่วนของภาพ */
+}
+
+/* ส่วนที่แก้ไขสำหรับรูปใหญ่ */
+.product_card img {
+    width: 800px; /* กำหนดขนาดภาพตามที่คุณต้องการ */
+    object-fit: contain;
+    margin-top: 100px; /* เพิ่มระยะห่างด้านบน */
+    border: 4px solid #333; /* เพิ่มกรอบสีเทาเข้ม */
+    border-radius: 15px; /* ทำให้มุมของรูปโค้งมน */
+    padding: 2px; /* เพิ่มพื้นที่ภายในกรอบ */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เพิ่มเงาให้กับรูป */
+    overflow: hidden;
+}
+
+/* รูปภาพภายในการ์ดที่ไม่ใช่รูปใหญ่ */
+.product-card1 img {
+    border: 1px solid black; /* กรอบสีดำ */
+    border-radius: 20px; /* เพิ่มความโค้งของมุม */
+    padding: 5px;
+    max-width: 170%; /* ทำให้ภาพยืดหยุ่นตามขนาดการ์ด */
+    height: auto; /* รักษาสัดส่วนของภาพ */
+}
+
+.product-grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* ปรับขนาดการ์ดให้เล็กลง */
+    gap: 180px; /* เพิ่มระยะห่างระหว่างการ์ด */
+    padding: 20px;
+    margin: auto;
+}
+
+.product-card2 img {
+    border: 1px solid black; /* กรอบสีดำ */
+    border-radius: 20px; /* เพิ่มความโค้งของมุม */
+    padding: 5px;
+    max-width: 80%; /* ทำให้ภาพยืดหยุ่นตามขนาดการ์ด */
+    height: auto; /* รักษาสัดส่วนของภาพ */
+}
+
+.add-to-cart img {
+    margin-right: 5px;
+    /* ปรับตำแหน่งไอคอน */
+}
+
+/* Start Footer */
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+    padding: 25px 20px; /* ลด padding เพื่อให้ footer เล็กลง */
+    width: 100%;
+    font-size: 0.8em; /* ลดขนาดฟอนต์ให้เล็กลง */
+}
+footer h3 {
+    margin-bottom: 5px; /* ลดระยะห่างด้านล่างของหัวข้อ */
+    font-size: 1em; /* ปรับขนาดหัวข้อ */
+}
+footer p {
+    font-size: 0.8em; /* ลดขนาดฟอนต์ของข้อความ */
+    margin: 2px 0; /* ลดระยะห่างระหว่างบรรทัด */
+}
+/* End Footer */
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-grid1 {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* ลดขนาดลงในแท็บเล็ต */
+    }
+
+    footer {
+        font-size: 0.9em; /* ลดขนาดฟอนต์สำหรับแท็บเล็ต */
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .menu, .acc, .about {
+        padding-right: 20px;
+    }
+
+    .product-grid1 {
+        grid-template-columns: 1fr; /* ลดจำนวนคอลัมน์สำหรับมือถือ */
+    }
+
+    footer {
+        font-size: 0.75em; /* ฟอนต์เล็กลงสำหรับมือถือ */
+        padding: 15px 10px;
+    }
+}
