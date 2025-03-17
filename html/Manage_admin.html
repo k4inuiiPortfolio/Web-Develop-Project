@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="manage.css">
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    // ค้นหาและโหลดสคริปต์ที่อยู่ใน `navbar.html`
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript); // เพิ่มสคริปต์ลงใน DOM
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Blind Fortune</h2>
+        </div>
+
+        <!-- Cate Admin -->
+        <div class="menu">
+            <div class="menu-item active">
+                <a href="Manage_admin" style="text-decoration: none; color:aliceblue">
+                    <span class="icon">
+                        <img src="/Administrator Male.svg" alt="Plus">
+                        Admin
+                    </span>
+                </a>
+
+            </div>
+
+            <!-- Cate Manage -->
+            <div class="menu-item">
+                <i class="icon"><img src="/Diversity.svg" alt="Diversity"></i>Category
+                <ul>
+                    <li><a href="Manage_product?category=Molly" ,
+                            style="text-decoration: none; color:aliceblue">Molly</a></li>
+                    <li><a href="Manage_product?category=Dimoo" ,
+                            style="text-decoration: none; color:aliceblue">Dimoo</a></li>
+                    <li><a href="Manage_product?category=SkullPanda" ,
+                            style="text-decoration: none; color:aliceblue">SkullPanda</a></li>
+                    <li><a href="Manage_product?category=Hirono" ,
+                            style="text-decoration: none; color:aliceblue">Hirono</a></li>
+                    <li><a href="Manage_product?category=Crybaby" ,
+                            style="text-decoration: none; color:aliceblue">Crybaby</a></li>
+                    <li><a href="Manage_product?category=Pucky" ,
+                            style="text-decoration: none; color:aliceblue">Pucky</a></li>
+                    <li><a href="Manage_product?category=ETC" ,
+                            style="text-decoration: none; color:aliceblue">ETC</a></li>
+                </ul>
+            </div>
+
+            <!-- Access Manage -->
+            <div class="menu-item">
+                <div class="menu-item">
+                    <span class="icon"><img src="/Plus.svg" alt="Plus">Accessory</span>
+                    <ul>
+                        <li><a href="Manage_product?category=Bag" ,
+                            style="text-decoration: none; color:aliceblue">Bag</a></li>
+
+                        <li><a href="Manage_product?category=Case" ,
+                            style="text-decoration: none; color:aliceblue">Case</a></li>
+
+                        <li><a href="Manage_product?category=Doll" ,
+                                style="text-decoration: none; color:aliceblue">Doll</a></li>
+
+
+                        <li><a href="Manage_product?category=Mirror" ,
+                                style="text-decoration: none; color:aliceblue">Mirror</a></li>   
+
+                        <li><a href="Manage_product?category=Pin" ,
+                                style="text-decoration: none; color:aliceblue">Pin</a></li>
+                        
+
+
+                        <li><a href="Manage_product?category=Mirror" ,
+                                style="text-decoration: none; color:aliceblue">Mirror</a></li>
+
+                        
+                        <li><a href="Manage_product?category=Other" ,
+                                style="text-decoration: none; color:aliceblue">Other</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+        </div>
+        <a href="/login" class="logout">LOGOUT</a>
+    </div>
+   
+
+    <!-- Main Content Section -->
+    <div class="content">
+        <!-- Header Section -->
+        <div class="header">
+            <input type="text" placeholder="Enter Admin ID" id="search-admin-id" class="search-bar">
+            <button class="search-button" id="search-button">&#x1F50D;</button>
+            <!-- ปุ่ม Add_admin -->
+            <a href="/Regist">
+                <button class="search-button">&#x2795;</button>
+            </a>
+            <div class="notifications"></div>
+        </div>
+
+        <!-- Table Header Section -->
+        <div class="table-header">
+            <span class="header-item">Picture</span>
+            <span class="header-item">ID</span>
+            <span class="header-item">First Name</span>
+            <span class="header-item">Last Name</span>
+            <span class="header-item">Sex</span>
+            <span class="header-item">Phone Number</span>
+            <span class="header-item">Actions</span>
+        </div>
+
+        <!-- Table Content Section (Dynamic content from JSON) -->
+        <div class="table-content" id="admin-table">
+            <!-- Table rows will be dynamically inserted here -->
+        </div>
+
+    </div>
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:3000/admins') // Fetch admins data
+                .then(response => response.json())
+                .then(data => {
+                    updateAdminTable(data);
+                })
+                .catch(err => console.error('Error fetching data:', err));
+
+            // เพิ่ม Event Listener สำหรับการค้นหา
+            document.getElementById('search-button').addEventListener('click', () => {
+                const adminId = document.querySelector('.search-bar').value.trim(); // อ่านค่าจากช่องค้นหา
+
+                if (!adminId) {
+                    alert('Please enter an Admin ID to search.');
+                    return;
+                }
+
+                fetch('http://localhost:3000/admins') // ดึงข้อมูล Admin ทั้งหมด
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch admin data.');
+                        }
+                        return response.json();
+                    })
+                    .then(admins => {
+                        // กรองข้อมูล admin_id ที่ตรงกับคำค้นหา
+                        const admin = admins.find(a => a.admin_id == adminId);
+
+                        if (!admin) {
+                            alert('Admin not found.');
+                            return;
+                        }
+                        
+                        // แสดงข้อมูล Admin ที่ค้นพบในตาราง
+                        const container = document.getElementById('admin-table');
+                        container.innerHTML = ''; // ล้างข้อมูลเก่า
+                        
+                        const row = `
+                            <div class="table-row" data-id="${admin.admin_id}">
+                                <img src="/sec2_gr9_ws_src/Backend/picture_admin/${admin.image_path}" alt="Profile Picture">
+                                <span>${admin.admin_id}</span>
+                                <span>${admin.admin_firstname}</span>
+                                <span>${admin.admin_lastname}</span>
+                                <span>${admin.admin_sex}</span>
+                                <span>${admin.admin_tel}</span>
+                                <div class="action-buttons">
+                                    <img src="/Edit.svg" alt="Edit" class="edit" onclick="editAdmin(${admin.admin_id})">
+                                    <img src="/deleat.svg" alt="Delete" class="delete" onclick="deleteAdmin(${admin.admin_id})">
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += row;
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Error retrieving admin data.');
+                    });
+            });
+        });
+        
+        function updateAdminTable(admins) {
+            const container = document.getElementById('admin-table');
+            container.innerHTML = '';
+
+            admins.forEach(admin => {
+                const row = `
+                    <div class="table-row" data-id="${admin.admin_id}">
+                        <img src="/${admin.image_path}" alt="Profile Picture">
+                        <span>${admin.admin_id}</span>
+                        <span>${admin.admin_firstname}</span>
+                        <span>${admin.admin_lastname}</span>
+                        <span>${admin.admin_sex}</span>
+                        <span>${admin.admin_tel}</span>
+                        <div class="action-buttons">
+                                <img src="/Edit.svg" alt="Edit" class="edit" onclick="editAdmin(${admin.admin_id})">
+                            <img src="/deleat.svg" alt="Delete" class="delete" onclick="deleteAdmin(${admin.admin_id})">
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += row;
+            });
+        }
+
+        function editAdmin(adminId) {
+            window.location.href = `/edit_admin?adminId=${adminId}`;
+        }
+
+
+        function deleteAdmin(adminId) {
+            if (confirm(`Are you sure you want to delete admin with ID: ${adminId}?`)) {
+                fetch(`http://localhost:3000/deleteAdmin/${adminId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Admin deleted successfully.');
+                            document.querySelector(`[data-id='${adminId}']`).remove();
+                        } else {
+                            alert('Failed to delete admin.');
+                        }
+                    })
+                    .catch(err => console.error('Error deleting admin:', err));
+            }
+        }
+    </script>
+
+</body>
+
+</html>

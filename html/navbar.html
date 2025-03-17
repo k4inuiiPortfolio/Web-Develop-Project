@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar</title>
+    <link rel="stylesheet" href="nav.css">
+
+</head>
+
+<body>
+    <nav> <!-- START NAV -->
+        <a href="/home" class="button logo"> <!-- ลิงก์ไปยังหน้า Home -->
+            <img src="/logoBF.png" alt="Logo" style="width:120px; height:auto;">
+        </a>
+        <a href="/menu" class="button menu"> <!-- ลิงก์ไปยังหน้า Menu -->
+            <img src="/menu.png" alt="Menu" style="width:100px; height:auto;">
+        </a>
+
+        <a href="/home" class="button acc" id="accessory-btn"> <!-- ลิงก์ไปยังหน้า Home พร้อมปุ่ม pop-up แสดงรายการชนิดของ Accessory -->
+            <img src="/acces.png" alt="Accessories" style="width:100px; height:auto;">
+        </a>
+        
+        <div class="accessory-popup">
+            <div class="accessory-options">
+                <!-- ตัวเลือกของ Accessories จะทำงานแบบ select -->
+                <button class="accessory-option" id="accessory-bag" onclick="window.location.href='accessorysearch?category=Bag'">Bag</button>
+                <button class="accessory-option" id="accessory-case" onclick="window.location.href='accessorysearch?category=Case'">Case</button>
+                <button class="accessory-option" id="accessory-doll" onclick="window.location.href='accessorysearch?category=Doll'">Doll</button>
+                <button class="accessory-option" id="accessory-mirror" onclick="window.location.href='accessorysearch?category=Mirror'">Mirror</button>
+                <button class="accessory-option" id="accessory-pin" onclick="window.location.href='accessorysearch?category=Pin'">Pin</button>
+                <button class="accessory-option" id="accessory-other" onclick="window.location.href='accessorysearch?category=Other'">Other</button>
+            </div>
+        </div>
+
+        <a href="/aboutus" class="button about"> <!-- ลิงก์ไปยังหน้า About us -->
+            <img src="/aboutus.png" alt="About Us" style="width:100px; height:auto;">
+        </a>
+        <a href="/home" class="button like"> <!-- ลิงก์ไปยังหน้า Like -->
+            <img src="/like.png" alt="Like" style="width:100px; height:auto;">
+        </a>
+        <a href="/home" class="button cart"> <!-- ลิงก์ไปยังหน้า Cart -->
+            <img src="/cart.png" alt="Cart" style="width:100px; height:auto;">
+        </a>
+        <a href="/search" class="button search"> <!-- ลิงก์ไปยังหน้า Search -->
+            <img src="/search.png" alt="Search" style="width:100px; height:auto;">
+        </a>
+        <a href="/login" class="button login"> <!-- ลิงก์ไปยังหน้า Login -->
+            <img src="/login.png" alt="Login" style="width:120px; height:auto;">
+        </a>
+    </nav> <!-- END NAV -->
+    
+
+    
+
+    <!-- Start Pop-up -->
+    <script>   
+        const accessoryBtn = document.getElementById('accessory-btn'); // ดึงปุ่ม Accessory มาเก็บในตัวแปร 
+        const accessoryPopup = document.querySelector('.accessory-popup'); // ดึง pop-up Accessory มาเก็บในตัวแปร 
+        
+        accessoryBtn.addEventListener('mouseenter', () => { // แสดงป๊อปอัพเมื่อเลื่อนเมาส์มาบนปุ่ม 
+            accessoryPopup.style.display = 'block';
+        });
+        
+        accessoryPopup.addEventListener('mouseleave', () => { // ซ่อนป๊อปอัพเมื่อเลื่อนเมาส์ออกจากป๊อปอัพ 
+            accessoryPopup.style.display = 'none';  
+        });
+
+        // ซ่อนป๊อปอัพเมื่อคลิกข้างนอก
+        document.addEventListener('click', function(event) {
+            if (!accessoryPopup.contains(event.target) && !accessoryBtn.contains(event.target)) {
+                accessoryPopup.style.display = 'none';
+            }
+        });  
+    </script>   
+    <!-- End Pop-up -->
+</body>
+
+</html>

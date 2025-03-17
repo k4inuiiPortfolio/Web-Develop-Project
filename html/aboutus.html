@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>ABOUT US Page</title> 
+    <link rel="stylesheet" href="aboutus.css">
+</head>
+<body>
+    <!-- Main content of the home page -->
+    <div id="navbar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    // ค้นหาและโหลดสคริปต์ที่อยู่ใน `navbar.html`
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript); // เพิ่มสคริปต์ลงใน DOM
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <div class="quote">“It’s not your salary that makes you rich, it’s your spending habits.”</div> <!-- ข้อความ Quote  -->
+
+    <div class="member-container"> <!-- ส่วนแสดงสมาชิก -->
+
+        <div class="cofounder">Co-Founder</div> <!-- หัวข้อ Co-Founder -->
+        
+        <div class="member-item"> <!-- รายละเอียดสมาชิกคนที่ 1 -->
+            <img src="/ong.jpg" class="member-image"><br>
+            6687001 Keatikun Komkeng<br>
+            <a href="mailto:keatikunkomkeng@gmail.com" class="mailong">  
+                <img src="/mail8.png" alt="mailong"> keatikunkomkeng@gmail.com</a>
+        </div>
+
+        <div class="member-item"> <!-- รายละเอียดสมาชิกคนที่ 2 -->
+            <img src="/pluem.jpg" class="member-image"><br>
+            6687002 Teachit Thitithamchariya<br>
+            <a href="mailto:kainuiInw002@gmail.com" class="mailtae"> 
+                <img src="/mail8.png" alt="mailtae"> kainuiInw002@gmail.com</a>
+        </div>
+
+        <div class="member-item"> <!-- รายละเอียดสมาชิกคนที่ 3 -->
+            <img src="/peng.jpg" class="member-image"><br>
+            6687088 Thanason Boonmark<br>
+            <a href="mailto:twinsp217@gmail.com" class="mailpeng"> 
+                <img src="/mail8.png" alt="mailpeng"> twinsp217@gmail.com</a>
+        </div>
+
+        <div class="member-item"> <!-- รายละเอียดสมาชิกคนที่ 4 -->
+            <img src="/bell.jpg" class="member-image"><br>
+            6687031 Pornpawee Pathompornwiwat<br>
+            <a href="mailto:Bellpornpawee40@gmail.com" class="mailbell"> 
+                <img src="/mail8.png" alt="mailbell"> Bellpornpawee40@gmail.com</a>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

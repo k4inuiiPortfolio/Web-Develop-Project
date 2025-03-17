@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Admin</title>
+    <style>
+        body {
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            font-family: Arial;
+            min-height: 100vh; /* ครอบคลุมความสูงของหน้าจอเสมอ */
+
+            align-items: center;
+            background: linear-gradient(to bottom, #303030, #b9b2b2); /* ไล่สีพื้นหลัง */
+        }
+
+        .edit_admin {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+
+            width: 100%;
+            max-width: 550px;
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        h1 {
+            text-align: center;
+            color: #111111;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #161616;
+            font-size: 17px;
+        }
+
+        input,select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            font-size: 12px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="button"] {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        input[type="button"]:hover {
+            background-color: #e53935;
+        }
+
+        #responseMessage {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <section class="edit_admin">
+        <form id="editAdminForm" action="/path_to_your_backend" method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <h1>EDIT ADMIN</h1>
+
+                <!-- Input hidden สำหรับ adminId -->
+                <input type="hidden" id="admin_id" name="admin_id">
+
+                <label for="admin_firstname">First Name</label>
+                <input type="text" id="admin_firstname" name="admin_firstname" placeholder="Enter First Name"><br>
+
+                <label for="admin_lastname">Last Name</label>
+                <input type="text" id="admin_lastname" name="admin_lastname" placeholder="Enter Last Name"><br>
+
+                <label for="admin_sex">Gender</label>
+                <select id="admin_sex" name="admin_sex">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select><br>
+
+                <label for="admin_tel">Phone Number</label>
+                <input type="tel" id="admin_tel" name="admin_tel" placeholder="Enter Phone Number" pattern="[0-9]{10}" maxlength="10"><br>
+
+                <label for="admin_email">Email</label>
+                <input type="email" id="admin_email" name="admin_email" placeholder="Enter Email Address"><br>
+
+                <label for="admin_address">Address</label>
+                <input type="text" id="admin_address" name="admin_address" placeholder="Enter Address"><br>
+
+                <label for="admin_province">Province</label>
+                <input type="text" id="admin_province" name="admin_province" placeholder="Enter Province"><br>
+
+                <label for="admin_zipcode">Zip Code</label>
+                <input type="text" id="admin_zipcode" name="admin_zipcode" placeholder="Enter Zip Code" pattern="[0-9]{5}" maxlength="5"><br>
+
+                <label for="admin_password">Password</label>
+                <input type="password" id="admin_password" name="admin_password" placeholder="Enter New Password"><br>
+
+                <label for="retype_password">Retype Password</label>
+                <input type="password" id="retype_password" name="admin_retypepassword" placeholder="Retype New Password"><br>
+
+                <label for="image_path">Upload Profile Image</label>
+                <input type="file" id="image_path" name="image_path" accept="image/*"><br>
+                
+                <input type="submit" value="Update Admin">
+                <input type="button" value="Cancel" id="cancelButton" onclick="window.location.href= 'Manage_admin' ">
+
+
+                <p id="responseMessage" style="color: green;"></p>
+            </fieldset>
+        </form>
+    </section>
+
+    <script>
+        // ดึงค่า adminId จาก URL และเติมเข้าในฟอร์ม
+        const urlParams = new URLSearchParams(window.location.search);
+        const adminId = urlParams.get('adminId');  // จะได้ค่า adminId ที่ถูกส่งมาจาก URL
+        if (adminId) {
+            document.getElementById('admin_id').value = adminId;  // ใส่ค่า adminId เข้าในฟิลด์ hidden
+        }
+
+        // ฟังก์ชั่นสำหรับส่งฟอร์มเมื่อกรอกข้อมูล
+        const form = document.getElementById("editAdminForm");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // ป้องกันการรีโหลดหน้า
+
+            const formData = new FormData(form); // ใช้ FormData สำหรับส่งข้อมูล
+
+            // ตรวจสอบ PASSWORD และ RETYPE PASSWORD
+            if (formData.get("admin_password") !== formData.get("admin_retypepassword")) {
+                document.getElementById("responseMessage").innerText = "Passwords do not match.";
+                document.getElementById("responseMessage").style.color = "red";
+                return;
+            }
+
+            // ส่ง PUT request พร้อมข้อมูล
+            fetch(`http://localhost:3000/editAdmin/${formData.get("admin_id")}`, {
+                method: "PUT",
+                body: formData,
+            })
+            .then((response) => {
+                if (!response.ok) throw new Error("Failed to update admin.");
+                return response.json();
+            })
+            .then((result) => {
+                document.getElementById("responseMessage").innerText = result.message;
+                document.getElementById("responseMessage").style.color = "green";
+
+                window.location.href = "Manage_admin";  // เปลี่ยน URL เป็นหน้าที่ต้องการ
+            })
+            .catch((error) => {
+                console.error(error);
+                document.getElementById("responseMessage").innerText = "Error updating admin data.";
+                document.getElementById("responseMessage").style.color = "red";
+            });
+        });
+    </script>
+</body>
+</html>

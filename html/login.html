@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login_regist.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    // ค้นหาและโหลดสคริปต์ที่อยู่ใน `navbar.html`
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript); // เพิ่มสคริปต์ลงใน DOM
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <!-- LOGIN -->
+<section class="login-container">
+    <!-- ฟอร์มสำหรับกรอกข้อมูลเพื่อเข้าสู่ระบบ -->
+    <form id="loginForm">
+        <h1>ADMINISTRATOR</h1> 
+        <img src="/logobig.png" alt="Logo" style="margin: 1;"> <!-- โลโก้ของระบบ -->
+        
+        <!-- ช่องกรอกชื่อผู้ใช้ (Username) -->
+        <label for="admin_id">USERNAME</label> 
+        <input type="text" id="admin_id" name="admin_id" placeholder="Username" required> <!-- ช่องกรอกชื่อผู้ใช้ -->
+        <br>
+
+        <!-- ช่องกรอกรหัสผ่าน (Password) -->
+        <label for="admin_password">PASSWORD</label> 
+        <input type="password" id="admin_password" name="admin_password" placeholder="Password" required>
+<!-- ช่องกรอกรหัสผ่าน -->
+        <br>
+
+        <!-- ลิงก์สำหรับลืมรหัสผ่าน   อย่าลืมแก้ที่ href!!!!!!!!!!ว่าไปapiสาธารณะ-->
+        <p class="forgot-password"> <a href="/login">Forget Password</a> </p> <!-- ลิงก์ให้ผู้ใช้กดหากลืมรหัสผ่าน -->
+
+        <!-- ปุ่มสำหรับล็อกอิน -->
+        <!-- <input type="button" value="LOGIN" onclick="window.location.href='Manage_admin.html';"> ปุ่มล็อกอิน (เมื่อคลิกจะไปหน้า manage.html) -->
+        <button type="submit" id="formBT">Log in</button>
+        <!-- ลิงก์สำหรับการลงทะเบียนหรือเข้าสู่ระบบของผู้ใช้งาน -->
+        <p class="register-login"> <a href="/Regist">User Login / Register</a> </p> <!--ลิงก์สำหรับการลงทะเบียนหรือเข้าสู่ระบบผู้ใช้ -->
+        
+    </form>
+    <p id="error-message" style="color: red; display: none;">Invalid Admin ID or Password</p>
+ 
+</section>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้าเมื่อส่งฟอร์ม
+
+            const username = document.getElementById('admin_id').value;
+            const password = document.getElementById('admin_password').value;
+
+            // ส่งข้อมูลไปที่เซิร์ฟเวอร์ผ่าน POST
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'Login successful!') {
+                    alert('Login successful!');
+                    window.location.href = 'Manage_admin'; // ไปที่หน้าถัดไปเมื่อ login สำเร็จ
+                } else {
+                    alert('Invalid username or password!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error logging in');
+            });
+        });
+    
+             
+
+</script>
+ 
+
+<!-- END LOGIN -->
+
+
+    
+</body>
+
+</html>

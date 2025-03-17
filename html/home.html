@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+
+    <!-- Main content of the home page -->
+    <div id="navbar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    // ค้นหาและโหลดสคริปต์ที่อยู่ใน `navbar.html`
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript); // เพิ่มสคริปต์ลงใน DOM
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <!-- Main Content -->
+    <main>
+        <a href="" class="product_card" id="main-image-link">
+            <img src="/bigbig1.png" alt="รูปใหญ่" id="main-image" style="width: 1000px;">
+        </a>
+        <script>
+            const imageUrls = [
+                "/bigbig1.png",
+                "/bigbig2.jpg",
+                "/bigbig3.jpg",
+                "/bigbig4.jpg",
+                "/bigbig5.jpg"
+            ];
+    
+            let currentIndex = 0;
+    
+            const mainImage = document.getElementById('main-image');
+    
+            // เมื่อคลิกที่ภาพใหญ่ เปลี่ยนเป็นภาพถัดไป
+            mainImage.addEventListener('click', function(event) {
+                event.preventDefault(); // ป้องกันการโหลดหน้าใหม่เมื่อคลิกลิงก์
+                currentIndex = (currentIndex + 1) % imageUrls.length; // เปลี่ยนไปยังภาพถัดไป วนกลับไปภาพแรกเมื่อหมด
+                mainImage.src = imageUrls[currentIndex];
+            });
+        </script>
+
+        <h2>New Collection</h2>
+        <section class="product-grid1" id="new-collection"></section>
+
+        <h2>Hot</h2>
+        <section class="product-grid1" id="hot"></section>
+
+        <h2>Best Seller</h2>
+        <section class="product-grid1" id="best-seller"></section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <section>
+            <h3>Contact Us</h3>
+            <p>Tel: 02-000-6132</p>
+            <p>Email: BlindFortune@gmail.com</p>
+        </section>
+        <section>
+            <h3>Follow Us</h3>
+            <p>IG: Blind Fortune</p>
+            <p>Facebook: Blind Fortune</p>
+            <p>TikTok: Blind Fortune</p>
+        </section>
+        <section>
+            <h3>Location</h3>
+            <p>999/9 Rama I Rd, Pathum Wan, Bangkok, Thailand</p>
+        </section>
+    </footer>
+
+    <!-- Dynamic Script Data -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:3000/products')
+                .then(response => response.json())
+                .then(data => {
+                    const newCollection = data.filter(item => item.category === 'Molly').slice(0, 3);
+                    const hotItems = data.filter(item => item.category === 'SkullPanda').slice(0, 3);
+                    const bestSellers = data.filter(item => item.category === 'Hirono').slice(0, 3);
+            
+                    updateProductGrid('new-collection', newCollection);
+                    updateProductGrid('hot', hotItems);
+                    updateProductGrid('best-seller', bestSellers);
+                })
+                .catch(err => console.error('Error fetching products:', err));
+        });
+
+        function updateProductGrid(sectionId, products) {
+            const container = document.getElementById(sectionId);
+            container.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = `
+                    <a href="detail?product_id=${product.id}" class="product-card">
+                    <div class="product-card">
+                        <img src="${product.image || 'https://via.placeholder.com/150'}" alt="${product.name}">
+                    </div>`;
+                container.innerHTML += productCard;
+            });
+        }
+    </script>
+
+</body>
+
+</html>

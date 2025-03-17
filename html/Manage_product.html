@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="manage.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    // ค้นหาและโหลดสคริปต์ที่อยู่ใน `navbar.html`
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript); // เพิ่มสคริปต์ลงใน DOM
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Blind Fortune</h2>
+        </div>
+
+
+        <!-- Cate Admin -->
+        <div class="menu">
+            <div class="menu-item active">
+                <a href="Manage_admin" style="text-decoration: none; color:aliceblue">
+                    <span class="icon">
+                        <img src="/Administrator Male.svg" alt="Plus">
+                        Admin
+                    </span>
+                </a>
+
+            </div>
+
+
+            <!-- Cate Manage -->
+            <div class="menu-item">
+                <i class="icon"><img src="/Diversity.svg" alt="Diversity"></i>Category
+                <ul>
+                    <li><a href="Manage_product?category=Molly" ,
+                            style="text-decoration: none; color:aliceblue">Molly</a></li>
+                    <li><a href="Manage_product?category=Dimoo" ,
+                            style="text-decoration: none; color:aliceblue">Dimoo</a></li>
+                    <li><a href="Manage_product?category=SkullPanda" ,
+                            style="text-decoration: none; color:aliceblue">SkullPanda</a></li>
+                    <li><a href="Manage_product?category=Hirono" ,
+                            style="text-decoration: none; color:aliceblue">Hirono</a></li>
+                    <li><a href="Manage_product?category=Crybaby" ,
+                            style="text-decoration: none; color:aliceblue">Crybaby</a></li>
+                    <li><a href="Manage_product?category=Pucky" ,
+                            style="text-decoration: none; color:aliceblue">Pucky</a></li>
+                    <li><a href="Manage_product?category=ETC" ,
+                            style="text-decoration: none; color:aliceblue">ETC</a></li>
+                </ul>
+            </div>
+
+             <!-- Access Manage -->
+            <div class="menu-item">
+                <div class="menu-item">
+                    <span class="icon"><img src="/Plus.svg" alt="Plus">Accessory</span>
+                    <ul>
+                        <li><a href="Manage_product?category=Bag" ,
+                            style="text-decoration: none; color:aliceblue">Bag</a></li>
+
+                        <li><a href="Manage_product?category=Case" ,
+                            style="text-decoration: none; color:aliceblue">Case</a></li>
+
+                        <li><a href="Manage_product?category=Doll" ,
+                                style="text-decoration: none; color:aliceblue">Doll</a></li>
+
+
+                        <li><a href="Manage_product?category=Mirror" ,
+                                style="text-decoration: none; color:aliceblue">Mirror</a></li>   
+
+                        <li><a href="Manage_product?category=Pin" ,
+                                style="text-decoration: none; color:aliceblue">Pin</a></li>
+                        
+
+
+                        <li><a href="Manage_product?category=Mirror" ,
+                                style="text-decoration: none; color:aliceblue">Mirror</a></li>
+
+                        
+                        <li><a href="Manage_product?category=Other" ,
+                                style="text-decoration: none; color:aliceblue">Other</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+        </div>
+        <a href="/login" class="logout">LOGOUT</a>
+    </div>
+    
+
+    <div class="content">
+        <!-- Header Section -->
+        <div class="header">
+            <input type="text" placeholder="Enter Product ID" class="search-bar">
+            <button class="search-button" id="search-button">&#x1F50D;</button> <!-- ปุ่มค้นหา -->
+            <!-- ปุ่ม Add_admin -->
+            <a href="/Add_product">
+                <button class="search-button">&#x2795;</button>
+            </a>
+            <div class="notifications"></div>
+        </div>
+        
+        <!-- Table Header Section -->
+        <div class="table-header">
+            <span class="header-item">Picture</span>
+            <span class="header-item">ID</span>
+            <span class="header-item">Name</span>
+            <span class="header-item">Price</span>
+            <span class="header-item">Category</span>
+            <span class="header-item">Quantity</span>
+            <span class="header-item">Actions</span>
+        </div>
+
+        <!-- Table Content Section -->
+        <div class="table-content" id="product-table">
+            <!-- Rows dynamically loaded here -->
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.getElementById('search-button');
+            const searchBar = document.querySelector('.search-bar');
+            const productTable = document.getElementById('product-table');
+
+            // ดึงค่าหมวดหมู่จาก URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category'); // ดึงค่าหมวดหมู่จาก Query String
+
+            // เรียกดูสินค้าตามหมวดหมู่เมื่อโหลดหน้าเว็บ
+            if (category) {
+                searchProducts(category, 'category');
+            } else {
+                searchProducts('All', 'category'); // แสดงสินค้าทั้งหมด
+            }
+
+            // เพิ่ม Event Listener สำหรับการค้นหา
+            searchButton.addEventListener('click', () => {
+                const searchTerm = searchBar.value.trim(); // รับค่าที่ผู้ใช้พิมพ์
+                if (searchTerm) {
+                    if (!isNaN(searchTerm)) {
+                        // หากพิมพ์เป็นตัวเลข ให้ค้นหาจาก ID
+                        searchProducts(searchTerm, 'id');
+                    } else {
+                        // ค้นหาตามชื่อสินค้า
+                        searchProducts(searchTerm, 'name');
+                    }
+                } else {
+                    alert('Please enter a search term.');
+                }
+            });
+
+            function searchProducts(filterValue, filterType) {
+                fetch('http://localhost:3000/products') // เรียก API สินค้าทั้งหมด
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to fetch products.');
+                        return response.json();
+                    })
+                    .then(data => {
+                        let filteredProducts = [];
+                        if (filterType === 'category') {
+                            // กรองข้อมูลตามหมวดหมู่
+                            filteredProducts = data.filter(item =>
+                                filterValue === 'All' || item.category.toLowerCase() === filterValue.toLowerCase()
+                            );
+                        } else if (filterType === 'name') {
+                            // กรองข้อมูลตามชื่อสินค้า
+                            filteredProducts = data.filter(item =>
+                                item.name.toLowerCase().includes(filterValue.toLowerCase())
+                            );
+                        } else if (filterType === 'id') {
+                            // ค้นหาตาม ID
+                            const product = data.find(item => item.id === Number(filterValue));
+                            if (product) {
+                                filteredProducts = [product]; // เก็บเป็นอาร์เรย์เพื่อให้ใช้กับ updateProductGrid
+                            }
+                        }
+
+                        updateProductGrid('product-table', filteredProducts); // อัปเดตตารางสินค้า
+                    })
+                    .catch(err => console.error('Error fetching products:', err));
+            }
+
+
+
+
+            // ฟังก์ชันอัปเดตกริดสินค้า
+            function updateProductGrid(sectionId, products) {
+                const container = document.getElementById(sectionId);
+                container.innerHTML = ''; // ล้างข้อมูลเก่า
+
+                if (products.length === 0) {
+                    container.innerHTML = '<p>No products found.</p>'; // แจ้งว่าไม่พบสินค้า
+                    return;
+                }
+
+                products.forEach(product => {
+                    const row = `
+                        <div class="table-row" data-id="${product.id}">
+                            <img src="${product.image}" alt="${product.name}" class="product-image">                            
+                            <span>${product.id}</span>
+                            <span>${product.name}</span>
+                            <span>฿${product.price}</span>
+                            <span>${product.category}</span>
+                            <span>${product.quantity}</span>
+                            <div class="action-buttons">
+                                <img src="Edit.svg" alt="Edit" class="edit" onclick="editProduct(${product.id})">
+                                <img src="deleat.svg" alt="Delete" class="delete" onclick="deleteProduct(${product.id})">
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += row;
+                });
+            }
+        });
+
+
+        function editProduct(productId) {
+            window.location.href = `edit_product?productId=${productId}`;
+        }
+
+        // ฟังก์ชันลบสินค้าจากตาราง
+        function deleteProduct(productId) {
+            if (confirm(`Are you sure you want to delete product with ID: ${productId}?`)) {
+                // ส่งคำขอ DELETE ไปยัง server (backend)
+                fetch(`http://localhost:3000/deleteProduct/${productId}`, {
+                    method: 'DELETE', // ใช้ HTTP method DELETE
+                })
+                    .then(response => {
+                        // ตรวจสอบสถานะการตอบกลับ
+                        if (response.ok) {
+                            alert('Product deleted successfully.');
+                            // ลบแถวที่ตรงกับ productId ออกจากหน้า HTML
+                            document.querySelector(`[data-id='${productId}']`).remove();
+                        } else {
+                            // ถ้าไม่สามารถลบได้
+                            response.text().then(errorMessage => {
+                                alert(`Failed to delete product: ${errorMessage}`);
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        // แสดงข้อผิดพลาดที่เกิดขึ้น
+                        console.error('Error deleting product:', err);
+                        alert('Error deleting product. Please try again.');
+                    });
+            }
+        }
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="search.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div id="navbar"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <!-- Search Section -->
+    <div class="search-page">
+      <h1>SEARCH</h1>
+      <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search...">
+          <button class="search-button" id="search-button">&#x1F50D;</button>
+          <button class="filter-button">&#9881;</button>
+      </div>
+  </div>
+  
+  <div class="filters">
+      <fieldset class="sec">
+          <legend>Filters</legend>
+
+           <!-- Slide Bar -->
+          <legend>Price Range</legend>
+          <label for="price-range">Select a range:</label>
+          <input type="range" id="price-range" min="0" max="2000" step="50" value="500" oninput="updatePriceValue(this.value)">
+          <span id="price-value">500฿</span> <!-- แสดงค่าที่เลือก -->
+        
+        <!-- Check box  -->
+          <label>
+              <input type="checkbox" id="available-only"> Available ONLY
+          </label><br><br>
+  
+          <label>Category</label>
+          <select id="category-filter">
+              <option value="">Select</option>
+              <option value="Molly">Molly</option>
+              <option value="Dimoo">Dimoo</option>
+              <option value="SkullPanda">SkullPanda</option>
+              <option value="Hirono">Hirono</option>
+              <option value="Crybaby">Crybaby</option>
+              <option value="Pucky">Pucky</option>
+              <option value="ETC">ETC</option>
+          </select>
+      </fieldset><br>
+  </div>
+  <script>
+    document.querySelector('.filter-button').addEventListener('click', () => {
+        const filters = document.querySelector('.filters');
+        filters.style.display = filters.style.display === 'none' ? 'block' : 'none';
+    });
+    // ฟังก์ชันอัพเดตค่าที่เลือกจาก slider
+    function updatePriceValue(value) {
+      const priceValueSpan = document.getElementById('price-value');
+      priceValueSpan.textContent = value + "฿"; // อัพเดตข้อความใน <span>
+}
+
+</script>
+
+
+    <!-- Product Display -->
+    <main>
+        <section class="product-grid1" id="search-results">
+            <!-- ผลการค้นหาจะถูกแสดงที่นี่ -->
+        </section>
+    </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchButton = document.getElementById('search-button');
+        const searchInput = document.getElementById('search-input');
+        const priceRange = document.getElementById('price-range');
+        const categoryFilter = document.getElementById('category-filter');
+        const availableOnly = document.getElementById('available-only');
+
+        // ดักจับการกดปุ่มค้นหา
+        searchButton.addEventListener('click', () => {
+            performSearch(); // เรียกฟังก์ชันค้นหาหลัก
+        });
+
+        // ดักจับการเปลี่ยนแปลงของตัวกรอง
+        priceRange.addEventListener('input', performSearch);
+        categoryFilter.addEventListener('change', performSearch);
+        availableOnly.addEventListener('change', performSearch);
+    });
+
+    // ฟังก์ชันหลักสำหรับการค้นหา
+    function performSearch() {
+        const query = document.getElementById('search-input').value.trim().toLowerCase();
+        const maxPrice = parseInt(document.getElementById('price-range').value, 10);
+        const category = document.getElementById('category-filter').value;
+        const isAvailable = document.getElementById('available-only').checked;
+
+        fetch('http://localhost:3000/products') // ดึงข้อมูล JSON
+            .then(response => response.json())
+            .then(data => {
+                // เริ่มกรองข้อมูล
+                let filteredProducts = data;
+
+                // กรองด้วยคำค้นหา
+                if (query) {
+                    filteredProducts = filteredProducts.filter(product =>
+                        product.name.toLowerCase().includes(query) || 
+                        product.category.toLowerCase().includes(query)
+                    );
+                }
+
+                // กรองด้วย Price Range
+                filteredProducts = filteredProducts.filter(product => product.price <= maxPrice);
+
+                // กรองด้วย Category
+                if (category) {
+                    filteredProducts = filteredProducts.filter(product => product.category === category);
+                }
+
+                // กรองด้วย Available ONLY (สมมติว่า JSON มี property `available`)
+                if (isAvailable) {
+                    filteredProducts = filteredProducts.filter(product => product.quantity > 0);
+                }
+
+                // อัปเดตผลลัพธ์ใน Grid
+                updateProductGrid('search-results', filteredProducts);
+            })
+            .catch(err => console.error('Error fetching products:', err));
+    }
+
+    // ฟังก์ชันแสดงผลสินค้าที่ค้นหาได้
+    function updateProductGrid(sectionId, products) {
+        const container = document.getElementById(sectionId);
+        container.innerHTML = ''; // ล้างผลลัพธ์เก่า
+
+        if (products.length === 0) {
+            container.innerHTML = '<p>No products found.</p>'; // แจ้งว่าไม่พบสินค้า
+            return;
+        }
+
+        products.forEach(product => {
+            const productCard = `
+                <a href="detail?product_id=${product.id}" style="text-decoration: none; color: inherit;">
+                <div class="product-card">
+                    <img src="${product.image || 'https://via.placeholder.com/150'}" alt="${product.name}">
+                    <p class="product-description">${product.name}</p>
+                    <p class="product-price">฿${product.price}</p>
+                </div>`;
+            container.innerHTML += productCard;
+        });
+    }
+</script>
+  
+</body>
+
+</html>

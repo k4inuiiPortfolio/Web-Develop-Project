@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Product</title>
+    <link rel="stylesheet" href="login_regist.css">
+</head>
+
+<body>
+    <!-- Main content of the home page -->
+    <div id="navbar"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/navbar')
+                .then(response => response.text())
+                .then(html => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    document.getElementById('navbar').appendChild(tempDiv);
+
+                    // ค้นหาและโหลดสคริปต์ที่อยู่ใน `navbar.html`
+                    const scripts = tempDiv.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript); // เพิ่มสคริปต์ลงใน DOM
+                    });
+                })
+                .catch(err => console.error('Error loading navbar:', err));
+        });
+    </script>
+
+    <section class="register">
+        <form id="product-form" enctype="multipart/form-data">
+            <fieldset>
+                <h1>ADD Product</h1>
+                <label for="product_name">Product Name</label>
+                <input type="text" id="product_name" name="product_name" required><br>
+
+                <label for="product_price">Product Price</label>
+                <input type="number" id="product_price" name="product_price" required><br>
+
+                <label for="product_quantity">Product Quantity</label>
+                <input type="number" id="product_quantity" name="product_quantity" required><br>
+
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="Molly">Molly</option>
+                    <option value="SkullPanda">SkullPanda</option>
+                    <option value="Hirono">Hirono</option>
+                    <option value="Crybaby">Crybaby</option>
+                    <option value="Pucky">Pucky</option>
+                    <option value="ETC">ETC</option>
+                    <option value="Case">Case</option>
+                    <option value="Doll">Doll</option>
+                    <option value="Mirror">Mirror</option>
+                    <option value="Pin">Pin</option>
+                    <option value="Other">Other</option>
+                </select>
+                <br>
+
+                <label for="product_size">Size</label>
+                <input type="text" id="product_size" name="product_size" required><br>
+
+                <label for="product_material">Material</label>
+                <input type="text" id="product_material" name="product_material" required><br>
+
+                <!-- เพิ่มช่องสำหรับอัปโหลดภาพ -->
+                <label for="image_path">Upload Product Image</label>
+                <input type="file" id="image_path" name="image_path" accept="image/*" required><br>
+
+                <input type="button" value="CREATE" id="submit-button"> <!-- ห้ามแก้ -->
+                <button type="button" id="cancelButton" onclick="window.location.href='Manage_product';">Cancel</button>
+
+                <p class="signin">
+                    Already have an account? <a href="Manage_product.html">Sign in</a>
+                </p>
+            </fieldset>
+        </form>
+    </section>
+
+    <script>
+        document.getElementById('submit-button').addEventListener('click', async (event) => {
+            event.preventDefault();
+    
+            const form = document.getElementById('product-form');
+            const formData = new FormData(form);
+            const fileInput = document.getElementById('image_path');
+            const file = fileInput.files[0];
+            const statusElement = document.getElementById('status');
+    
+            // ตรวจสอบว่ามีการเลือกไฟล์หรือไม่
+            if (!file) {
+                alert('❌ Please select an image to upload.');
+                return;
+            }
+    
+            // สร้าง formData สำหรับอัปโหลดรูปภาพ
+            const imageFormData = new FormData();
+            imageFormData.append('image', file);
+    
+            try {
+                // ส่งข้อมูลสินค้าไปยัง /products
+                const productResponse = await fetch('http://localhost:3000/products', {
+                    method: 'POST',
+                    body: formData,
+                });
+    
+                // ตรวจสอบสถานะการตอบกลับ
+                if (!productResponse.ok) {
+                    throw new Error('Failed to add product. Please check your input.');
+                }
+                
+                 // ตรวจสอบสถานะการตอบกลับ
+                 if (productResponse.ok) {
+                    window.location.href = '/Manage_product'; // Redirect after success
+                }  
+
+                // ส่งข้อความแจ้งเตือนผ่าน LINE Notify
+                const message = `Product added successfully:\n- Name: ${formData.get('product_name')}\n- Category: ${formData.get('category')}\n- Size: ${formData.get('product_size')}\n- Material: ${formData.get('product_material')}\n- Quantity: ${formData.get('product_quantity')}\n- Price: ${formData.get('product_price')}`;
+                const notifyResponse = await fetch('http://localhost:3000/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message }),
+                });
+    
+                const notifyResult = await notifyResponse.json();
+                if (notifyResult.status !== 'success') {
+                    throw new Error(`Notification failed: ${notifyResult.message}`);
+                }
+    
+                // แสดงข้อความสถานะสำเร็จ
+                alert('✅ Product added and notification sent successfully!');
+                statusElement.textContent = '✅ Product added and notification sent successfully!';
+                statusElement.style.color = 'green';
+                // รีเซ็ตฟอร์ม
+                form.reset();
+
+            } catch (error) {
+                console.error('Error:', error);
+                statusElement.textContent = `❌ ${error.message}`;
+                statusElement.style.color = 'red';
+            }
+        });
+    </script>
+    
+    
+</body>
+
+</html>
